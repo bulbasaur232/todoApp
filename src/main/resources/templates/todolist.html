@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="./css/bootstrap.min.css" rel="stylesheet">
+    <title>Todo List</title>
+</head>
+
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>TodoList</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/todoList/add}'|"
+                    type="button">할일 등록
+            </button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <div>
+
+        <table class="table" style="text-align:center">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>할 일</th>
+                <th>수행 여부</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tr th:each="task : ${todoList}">
+                <td th:text="${task.id}">id</td>
+                <td th:text="${task.content}">내용</td>
+                <td th:text="${task.completed}? 'O':'X'">완료</td>
+                <td>
+                    <button id="delete-btn" class="btn btn-outline-info btn-sm"
+                    th:onclick="deleteTask([[${task.id}]])">삭제</button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</div> <!-- /container -->
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+
+    function deleteTask(id) {
+        const url = "/todoList/delete/" + id
+        $.ajax({
+            type: 'post',
+            url: url,
+            contentType: 'application/json; charset=utf-8'
+        }).done(function () {
+            alert('할 일이 삭제되었습니다.');
+            window.location.href = '/todoList';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    }
+</script>
+</html>

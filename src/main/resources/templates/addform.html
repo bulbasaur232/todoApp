@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>할 일 등록</h2>
+    </div>
+
+    <form action="todolist.html" th:action th:object="${saveForm}" method="post">
+
+        <div>
+            <label for="content">해야할 일</label>
+            <input type="text" id="content" th:field="*{content}"
+                   th:errorclass="field-error" class="form-control" placeholder="할 일을 입력해주세요.">
+            <div class="field-error" th:errors="*{content}">
+                내용 오류
+            </div>
+        </div>
+
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='todolist.html'"
+                        th:onclick="|location.href='@{/todoList}'|"
+                        type="button">취소
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div> <!-- /container -->
+</body>
+</html>
